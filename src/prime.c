@@ -1,6 +1,7 @@
 /*
   Copyright (C) 2014 Adapteva, Inc.
   Contributed by Matt Thompson <mthompson@hexwave.com>
+  Modified by Ted Swoyer <tswoyer@gmail.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -56,7 +57,7 @@ int main(int argc, char *argv[])
 	e_reset_group(&dev);
 
 	// Load the device code into each core of the chip, and don't start it yet
-	e_load_group("e_prime.srec", &dev, 0, 0, platform.rows, platform.cols, E_FALSE);
+	e_load_group("bin/e_prime.srec", &dev, 0, 0, platform.rows, platform.cols, E_FALSE);
 
 	// Set the maximum per core test value on each core at address 0x7020
 	for(row=0;row<platform.rows;row++)
@@ -81,8 +82,6 @@ int main(int argc, char *argv[])
 
 	while(1)
 	{
-		sum = 0;
-		total_primes = 0;
 		usleep(100000);
 		int done = 0;
 
@@ -133,7 +132,7 @@ int main(int argc, char *argv[])
 	}
 
 	// Print final results
-	printf("Total tests: %" PRIu64 " Found primes: %" PRIu64 "\n", sum, total_primes + 1);
+	printf("\nTotal tests: %" PRIu64 " Found primes: %" PRIu64 "\n", sum, total_primes + 1);
 
 	e_finalize();
 
